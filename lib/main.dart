@@ -5,6 +5,7 @@ import 'package:news_api_flutter_package/model/article.dart';
 import 'package:news_api_flutter_package/model/error.dart';
 import 'package:news_api_flutter_package/model/source.dart';
 import 'package:news_api_flutter_package/news_api_flutter_package.dart';
+import '../config.dart';
 
 void main() => runApp(MyApp());
 
@@ -26,39 +27,36 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget{
   const MyHomePage({Key? key, required this.title}) : super(key: key);
   final String title;
-
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
 
-  final NewsAPI _newsAPI = NewsAPI("9e19803975c54b378596c9cd1e079579");
+  final NewsAPI _newsAPI = NewsAPI(API_KEY);
   // ignore: deprecated_member_use
   var _memoList = <String>["","","","",""];
   //var _memoist = []..length = articles.length;
   var _currentIndex = -1;
-  int _news = 5;
-  // bool _loading = true;
-  // final _biggerFont = const TextStyle(fontSize: 18.0);
+  bool _loading = true;
 
   @override
   void initState(){
     super.initState();
-    //this.loadMemoList();
+    this.loadMemoList();
   }
 
-  // void loadMemoList() {
-  //   SharedPreferences.getInstance().then((prefs) {
-  //     const key = "memo-list";
-  //     if (prefs.containsKey(key)) {
-  //       _memoList = prefs.getStringList(key)!;
-  //     }
-  //     setState(() {
-  //       _loading = false;
-  //     });
-  //   });
-  // }
+  void loadMemoList() {
+    SharedPreferences.getInstance().then((prefs) {
+      const key = "memo-list";
+      if (prefs.containsKey(key)) {
+        _memoList = prefs.getStringList(key)!;
+      }
+      setState(() {
+        _loading = false;
+      });
+    });
+  }
 
   // void _addMemo() {
   //   setState(() {
