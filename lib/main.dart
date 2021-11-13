@@ -5,6 +5,7 @@ import 'package:news_api_flutter_package/model/article.dart';
 import 'package:news_api_flutter_package/model/error.dart';
 import 'package:news_api_flutter_package/model/source.dart';
 import 'package:news_api_flutter_package/news_api_flutter_package.dart';
+import '../config.dart';
 
 void main() => runApp(MyApp());
 
@@ -24,54 +25,38 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget{
+
   const MyHomePage({Key? key, required this.title}) : super(key: key);
   final String title;
-
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
 
-  final NewsAPI _newsAPI = NewsAPI("9e19803975c54b378596c9cd1e079579");
+  final NewsAPI _newsAPI = NewsAPI(API_KEY);
   // ignore: deprecated_member_use
-  var _memoList = <String>["","","","",""];
-  //var _memoist = []..length = articles.length;
+  var _memoList = <String>[];
   var _currentIndex = -1;
-  int _news = 5;
-  // bool _loading = true;
-  // final _biggerFont = const TextStyle(fontSize: 18.0);
+  bool _loading = true;
 
   @override
   void initState(){
     super.initState();
-    //this.loadMemoList();
+    this.loadMemoList();
   }
 
-  // void loadMemoList() {
-  //   SharedPreferences.getInstance().then((prefs) {
-  //     const key = "memo-list";
-  //     if (prefs.containsKey(key)) {
-  //       _memoList = prefs.getStringList(key)!;
-  //     }
-  //     setState(() {
-  //       _loading = false;
-  //     });
-  //   });
-  // }
-
-  // void _addMemo() {
-  //   setState(() {
-  //     _memoList.add("");
-  //     _currentIndex = _memoList.length - 1;
-  //     storeMemoList();
-  //     Navigator.of(context).push(MaterialPageRoute<void>(
-  //       builder: (BuildContext context) {
-  //         return new Edit(_memoList[_currentIndex], _onChanged);
-  //       },
-  //     ));
-  //   });
-  // }
+  void loadMemoList() {
+    SharedPreferences.getInstance().then((prefs) {
+      const key = "memo-list";
+      if (prefs.containsKey(key)) {
+        _memoList = prefs.getStringList(key)!;
+      }
+      setState(() {
+        _loading = false;
+      });
+    });
+  }
 
   void _onChanged(String text) {
     setState(() {
@@ -100,16 +85,6 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
          body: _newsTile(),
-    //   ListView.builder(
-    //     padding: const EdgeInsets.all(16.0),
-    //     itemCount: items,
-    //     itemBuilder: /*1*/ (context, i) {
-    //       if (i.isOdd) return Divider(height: 2);
-    //       final index = (i / 2).floor();
-    //       final memo = _memoList[index];
-    //       return _newstopic(memo, index);
-    //     }
-    // ),
     );
   }
 
@@ -126,18 +101,15 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _buildArticleListView(List<Article> articles) {
+    for(int i=0;i<articles.length;i++){
+      _memoList.add("");
+    }
     return ListView.builder(
       itemCount: articles.length,
       itemBuilder: (context, index) {
         Article article = articles[index];
         final memo = _memoList[index];
         return _newstopic(memo, index,article);
-        //   Card(
-        //   child: ListTile(
-        //     title: Text(article.title!, maxLines: 2),
-        //     subtitle: Text(article.description ?? "", maxLines: 3),
-        //
-        // );
       },
     );
   }
@@ -146,11 +118,22 @@ class _MyHomePageState extends State<MyHomePage> {
     return Column(
       children: [
         ListTile(
-          title: Text(article.title!, maxLines: 2),
-          subtitle: Text(article.description ?? "", maxLines: 3),
+          title: Text(
+              article.title!, maxLines: 2,
+              style: TextStyle(
+                color: Colors.white,
+              ),
+          ),
+          subtitle: Text(
+              article.description ?? "", maxLines: 3,
+              style: TextStyle(
+                color: Colors.white,
+              ),
+          ),
           leading: article.urlToImage == null
                   ? null
                   : Image.network(article.urlToImage!),
+          tileColor: Colors.blueGrey,
         ),
          content == ""
           ? _nullContent(index)
@@ -182,12 +165,9 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
-
-
-
   //一言メモ未記入時に表示させるウィジェット
   Widget _nullContent(int index){
-    return RaisedButton(
+    return ElevatedButton(
       onPressed: () {
         _currentIndex = index;
         Navigator.of(context)
@@ -198,7 +178,9 @@ class _MyHomePageState extends State<MyHomePage> {
         );
       },
       child: Text('一言メモを書く'),
-      color: Colors.blue,
+      // style: ElevatedButton.styleFrom(
+      //
+      // ),
     );
   }
 
@@ -220,9 +202,5 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-  // class MemoList extends StatefulWidget{
-  // @override
-  // MyHomePage createState() => _MyHomePageState();
-  // }
 
 
