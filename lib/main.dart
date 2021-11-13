@@ -97,6 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _buildArticleListView(List<Article> articles) {
+    bool _customTileExpanded = false;
     for (int i = 0; i < articles.length; i++) {
       _memoList.add("");
     }
@@ -105,8 +106,19 @@ class _MyHomePageState extends State<MyHomePage> {
       itemBuilder: (context, index) {
         Article article = articles[index];
         final memo = _memoList[index];
-        return _newstopic(memo, index, article);
+            return _newstopic(memo, index, article);
       },
+    );
+  }
+
+  Widget _newsLap(bool _expanstion){
+    return ExpansionTile(
+      title: Text('もっとニュースを見る'),
+      trailing: Icon(
+        _expanstion
+            ? Icons.arrow_drop_down_circle
+            : Icons.arrow_drop_down,
+      ),
     );
   }
 
@@ -119,18 +131,23 @@ class _MyHomePageState extends State<MyHomePage> {
             maxLines: 2,
             style: TextStyle(
               color: Colors.white,
+              fontSize: 15,
             ),
           ),
           subtitle: Text(
             article.description ?? "",
-            maxLines: 3,
+            maxLines: 2,
             style: TextStyle(
               color: Colors.white,
+              fontSize: 10,
             ),
           ),
           leading: article.urlToImage == null
               ? null
-              : Image.network(article.urlToImage!),
+              : Image.network(
+                  article.urlToImage!,
+                  // width: 150
+          ),
           tileColor: Colors.blueGrey,
         ),
         content == "" ? _nullContent(index) : _showContent(content, index),
@@ -189,8 +206,23 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       shadowColor: Colors.black,
       child: ListTile(
-          title: Text('一言メモ'),
-          subtitle: Text(content),
+          title: Text(
+              '一言メモ',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              decoration: TextDecoration.underline,
+              decorationColor: Colors.blue,
+              decorationThickness: 3,
+              decorationStyle: TextDecorationStyle.double,
+            ),
+          ),
+          subtitle: Text(
+              content,
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 13,
+            ),
+          ),
           isThreeLine: true,
           onTap: () {
             _currentIndex = index;
