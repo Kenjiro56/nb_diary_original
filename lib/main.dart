@@ -118,12 +118,22 @@ class _MyHomePageState extends State<MyHomePage> {
     return Column(
       children: [
         ListTile(
-          title: Text(article.title!, maxLines: 2),
-          subtitle: Text(article.description ?? "", maxLines: 3),
+          title: Text(
+              article.title!, maxLines: 2,
+              style: TextStyle(
+                color: Colors.white,
+              ),
+          ),
+          subtitle: Text(
+              article.description ?? "", maxLines: 3,
+              style: TextStyle(
+                color: Colors.white,
+              ),
+          ),
           leading: article.urlToImage == null
                   ? null
                   : Image.network(article.urlToImage!),
-          tileColor: Colors.white54,
+          tileColor: Colors.blueGrey,
         ),
          content == ""
           ? _nullContent(index)
@@ -155,12 +165,9 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
-
-
-
   //一言メモ未記入時に表示させるウィジェット
   Widget _nullContent(int index){
-    return RaisedButton(
+    return ElevatedButton(
       onPressed: () {
         _currentIndex = index;
         Navigator.of(context)
@@ -171,7 +178,9 @@ class _MyHomePageState extends State<MyHomePage> {
         );
       },
       child: Text('一言メモを書く'),
-      color: Colors.blue,
+      // style: ElevatedButton.styleFrom(
+      //
+      // ),
     );
   }
 
