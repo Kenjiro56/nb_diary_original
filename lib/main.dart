@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget{
+
   const MyHomePage({Key? key, required this.title}) : super(key: key);
   final String title;
   @override
@@ -35,8 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final NewsAPI _newsAPI = NewsAPI(API_KEY);
   // ignore: deprecated_member_use
-  var _memoList = <String>["","","","",""];
-  //var _memoist = []..length = articles.length;
+  var _memoList = <String>[];
   var _currentIndex = -1;
   bool _loading = true;
 
@@ -57,19 +57,6 @@ class _MyHomePageState extends State<MyHomePage> {
       });
     });
   }
-
-  // void _addMemo() {
-  //   setState(() {
-  //     _memoList.add("");
-  //     _currentIndex = _memoList.length - 1;
-  //     storeMemoList();
-  //     Navigator.of(context).push(MaterialPageRoute<void>(
-  //       builder: (BuildContext context) {
-  //         return new Edit(_memoList[_currentIndex], _onChanged);
-  //       },
-  //     ));
-  //   });
-  // }
 
   void _onChanged(String text) {
     setState(() {
@@ -98,16 +85,6 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
          body: _newsTile(),
-    //   ListView.builder(
-    //     padding: const EdgeInsets.all(16.0),
-    //     itemCount: items,
-    //     itemBuilder: /*1*/ (context, i) {
-    //       if (i.isOdd) return Divider(height: 2);
-    //       final index = (i / 2).floor();
-    //       final memo = _memoList[index];
-    //       return _newstopic(memo, index);
-    //     }
-    // ),
     );
   }
 
@@ -124,18 +101,15 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _buildArticleListView(List<Article> articles) {
+    for(int i=0;i<articles.length;i++){
+      _memoList.add("");
+    }
     return ListView.builder(
       itemCount: articles.length,
       itemBuilder: (context, index) {
         Article article = articles[index];
         final memo = _memoList[index];
         return _newstopic(memo, index,article);
-        //   Card(
-        //   child: ListTile(
-        //     title: Text(article.title!, maxLines: 2),
-        //     subtitle: Text(article.description ?? "", maxLines: 3),
-        //
-        // );
       },
     );
   }
@@ -149,6 +123,7 @@ class _MyHomePageState extends State<MyHomePage> {
           leading: article.urlToImage == null
                   ? null
                   : Image.network(article.urlToImage!),
+          tileColor: Colors.white54,
         ),
          content == ""
           ? _nullContent(index)
@@ -218,9 +193,5 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-  // class MemoList extends StatefulWidget{
-  // @override
-  // MyHomePage createState() => _MyHomePageState();
-  // }
 
 
