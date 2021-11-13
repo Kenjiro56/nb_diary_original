@@ -38,33 +38,33 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState(){
     super.initState();
-    //this.loadMemoList();
+    this.loadMemoList();
   }
 
-  // void loadMemoList() {
-  //   SharedPreferences.getInstance().then((prefs) {
-  //     const key = "memo-list";
-  //     if (prefs.containsKey(key)) {
-  //       _memoList = prefs.getStringList(key)!;
-  //     }
-  //     setState(() {
-  //       _loading = false;
-  //     });
-  //   });
-  // }
-
-  void _addMemo() {
-    setState(() {
-      _memoList.add("");
-      _currentIndex = _memoList.length - 1;
-      storeMemoList();
-      Navigator.of(context).push(MaterialPageRoute<void>(
-        builder: (BuildContext context) {
-          return new Edit(_memoList[_currentIndex], _onChanged);
-        },
-      ));
+  void loadMemoList() {
+    SharedPreferences.getInstance().then((prefs) {
+      const key = "memo-list";
+      if (prefs.containsKey(key)) {
+        _memoList = prefs.getStringList(key)!;
+      }
+      // setState(() {
+      //   _loading = false;
+      // });
     });
   }
+
+  // void _addMemo() {
+  //   setState(() {
+  //     _memoList.add("");
+  //     _currentIndex = _memoList.length - 1;
+  //     storeMemoList();
+  //     Navigator.of(context).push(MaterialPageRoute<void>(
+  //       builder: (BuildContext context) {
+  //         return new Edit(_memoList[_currentIndex], _onChanged);
+  //       },
+  //     ));
+  //   });
+  // }
 
   void _onChanged(String text) {
     setState(() {
@@ -93,7 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: ListView.builder(
-        padding: const EdgeInsets.all(16.0),
+        //padding: const EdgeInsets.all(16.0),
         itemCount: items,
         itemBuilder: /*1*/ (context, i) {
           if (i.isOdd) return Divider(height: 2);
@@ -109,13 +109,11 @@ class _MyHomePageState extends State<MyHomePage> {
     return Column(
       children: [
         ListTile(
+          leading: Image.asset('images/sample.png'),
           title: Text('YouTuber結婚'),
           subtitle: Text('hogehogehogehogehogehogehogehogehogeaaasasaaaaaas'),
           isThreeLine: true,
           tileColor: Colors.blueAccent,
-        ),
-        Card(
-          child: Image.asset('images/sample.png'),
         ),
          content == ""
           ? _nullContent(index)
