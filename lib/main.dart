@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:diary_basic/edit.dart';
+import 'package:news_api_flutter_package/news_api_flutter_package.dart';
 
 void main() => runApp(MyApp());
 
