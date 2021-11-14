@@ -6,6 +6,8 @@ import 'package:news_api_flutter_package/model/error.dart';
 import 'package:news_api_flutter_package/model/source.dart';
 import 'package:news_api_flutter_package/news_api_flutter_package.dart';
 import '../config.dart';
+import 'package:url_launcher/link.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 void main() => runApp(MyApp());
 
@@ -178,6 +180,9 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+
+
+
 
   //一言メモ未記入時に表示させるウィジェット
   Widget _nullContent(int index) {
