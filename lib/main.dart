@@ -220,32 +220,59 @@ class _MyHomePageState extends State<MyHomePage> {
         borderRadius: BorderRadius.circular(12),
       ),
       shadowColor: Colors.black,
-      child: ListTile(
-          title: Text(
-              '一言メモ',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              decoration: TextDecoration.underline,
-              decorationColor: Colors.blue,
-              decorationThickness: 5,
-              //decorationStyle: TextDecorationStyle.double,
-            ),
+      child: Column(
+        children: [
+          ListTile(
+              title: Text(
+                  '一言メモ',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  decoration: TextDecoration.underline,
+                  decorationColor: Colors.blue,
+                  decorationThickness: 5,
+                  //decorationStyle: TextDecorationStyle.double,
+                ),
+              ),
+              subtitle: Text(
+                  content,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 13,
+                ),
+              ),
+              isThreeLine: true,
+              onTap: () {
+                _currentIndex = index;
+                Navigator.of(context)
+                    .push(MaterialPageRoute<void>(builder: (BuildContext context) {
+                  return new Edit(_memoList[_currentIndex], _onChanged);
+                }));
+              }),
+          ButtonBar(
+          alignment: MainAxisAlignment.center,
+          children: [
+              OutlinedButton(
+              child: Text(
+                  'Delete',
+                  // style: TextStyle(
+                  //   color: Colors.red,
+                  // ),
+              ),
+              onPressed: () {},
+              ),
+              OutlinedButton(
+              child: Text(
+                  'Edit',
+                  // style: TextStyle(
+                  //   color: Colors.green,
+                  // ),
+              ),
+              onPressed: () {},
+              )
+          ],
           ),
-          subtitle: Text(
-              content,
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 13,
-            ),
-          ),
-          isThreeLine: true,
-          onTap: () {
-            _currentIndex = index;
-            Navigator.of(context)
-                .push(MaterialPageRoute<void>(builder: (BuildContext context) {
-              return new Edit(_memoList[_currentIndex], _onChanged);
-            }));
-          }),
+      ],
+      ),
     );
   }
 }
