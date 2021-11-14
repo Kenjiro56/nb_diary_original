@@ -3,11 +3,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:diary_basic/edit.dart';
 import 'package:news_api_flutter_package/model/article.dart';
 import 'package:news_api_flutter_package/model/error.dart';
-import 'package:news_api_flutter_package/model/source.dart';
+//import 'package:news_api_flutter_package/model/source.dart';
 import 'package:news_api_flutter_package/news_api_flutter_package.dart';
 import '../config.dart';
-import 'package:url_launcher/link.dart';
+//import 'package:url_launcher/link.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 
 void main() => runApp(MyApp());
 
@@ -36,7 +37,7 @@ class _MyHomePageState extends State<MyHomePage> {
   // ignore: deprecated_member_use
   var _memoList = <String>[];
   var _currentIndex = -1;
-  bool _loading = true;
+  //bool _loading = true;
 
   @override
   void initState() {
@@ -52,7 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
       }
 
       setState(() {
-        _loading = false;
+        //_loading = false;
       });
     });
   }
@@ -102,7 +103,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
   Widget _buildArticleListView(List<Article> articles) {
-    bool _customTileExpanded = false;
     for (int i = 0; i < articles.length; i++) {
       _memoList.add("");
     }
