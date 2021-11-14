@@ -9,6 +9,7 @@ final String title;
 final String source;
 final String comment;
 final String date;
+final String url;
 
   newsComment({
     required this.id,
@@ -17,6 +18,7 @@ final String date;
     required this.source,
     required this.comment,
     required this.date,
+    required this.url,
   });
   Map<String, dynamic> toMap() {
     return {
@@ -26,6 +28,7 @@ final String date;
       'source': source,
       'comment': comment,
       'date': date,
+      'url': url
     };
   }
 
@@ -64,7 +67,8 @@ final String date;
         title: maps[i]['title'],
         source: maps[i]['source'],
         comment: maps[i]['comment'],
-        date: maps[i]['date']
+        date: maps[i]['date'],
+        url: maps[i]['url']
       );
     });
   }
