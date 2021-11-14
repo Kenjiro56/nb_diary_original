@@ -10,8 +10,6 @@ import '../config.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -24,8 +22,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatefulWidget{
-
+class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
   final String title;
   @override
@@ -33,7 +30,6 @@ class MyHomePage extends StatefulWidget{
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   final NewsAPI _newsAPI = NewsAPI(API_KEY);
   // ignore: deprecated_member_use
   var _memoList = <String>[];
@@ -41,7 +37,7 @@ class _MyHomePageState extends State<MyHomePage> {
   bool _loading = true;
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     this.loadMemoList();
   }
@@ -52,6 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
       if (prefs.containsKey(key)) {
         _memoList = prefs.getStringList(key)!;
       }
+
       setState(() {
         _loading = false;
       });
@@ -76,7 +73,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-
     //final items = _news;
     return Scaffold(
       appBar: AppBar(
@@ -84,24 +80,25 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-         body: _newsTile(),
+      body: _newsTile(),
     );
   }
 
-  Widget _newsTile(){
+  Widget _newsTile() {
     return FutureBuilder<List<Article>>(
         future: _newsAPI.getTopHeadlines(country: "jp"),
         builder: (BuildContext context, AsyncSnapshot<List<Article>> snapshot) {
           return snapshot.connectionState == ConnectionState.done
               ? snapshot.hasData
-              ? _buildArticleListView(snapshot.data!)
-              : _buildError(snapshot.error as ApiError)
+                  ? _buildArticleListView(snapshot.data!)
+                  : _buildError(snapshot.error as ApiError)
               : _buildProgress();
         });
   }
 
   Widget _buildArticleListView(List<Article> articles) {
-    for(int i=0;i<articles.length;i++){
+    bool _customTileExpanded = false;
+    for (int i = 0; i < articles.length; i++) {
       _memoList.add("");
     }
     return ListView.builder(
@@ -109,35 +106,51 @@ class _MyHomePageState extends State<MyHomePage> {
       itemBuilder: (context, index) {
         Article article = articles[index];
         final memo = _memoList[index];
-        return _newstopic(memo, index,article);
+            return _newstopic(memo, index, article);
       },
     );
   }
 
-  Widget _newstopic(String content,int index,Article article){
+  Widget _newsLap(bool _expanstion){
+    return ExpansionTile(
+      title: Text('もっとニュースを見る'),
+      trailing: Icon(
+        _expanstion
+            ? Icons.arrow_drop_down_circle
+            : Icons.arrow_drop_down,
+      ),
+    );
+  }
+
+  Widget _newstopic(String content, int index, Article article) {
     return Column(
       children: [
         ListTile(
           title: Text(
-              article.title!, maxLines: 2,
-              style: TextStyle(
-                color: Colors.white,
-              ),
+            article.title!,
+            maxLines: 2,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 15,
+            ),
           ),
           subtitle: Text(
-              article.description ?? "", maxLines: 3,
-              style: TextStyle(
-                color: Colors.white,
-              ),
+            article.description ?? "",
+            maxLines: 2,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 10,
+            ),
           ),
           leading: article.urlToImage == null
-                  ? null
-                  : Image.network(article.urlToImage!),
+              ? null
+              : Image.network(
+                  article.urlToImage!,
+                  // width: 150
+          ),
           tileColor: Colors.blueGrey,
         ),
-         content == ""
-          ? _nullContent(index)
-          : _showContent(content, index),
+        content == "" ? _nullContent(index) : _showContent(content, index),
       ],
     );
   }
@@ -165,17 +178,16 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+
   //一言メモ未記入時に表示させるウィジェット
-  Widget _nullContent(int index){
+  Widget _nullContent(int index) {
     return ElevatedButton(
       onPressed: () {
         _currentIndex = index;
         Navigator.of(context)
             .push(MaterialPageRoute<void>(builder: (BuildContext context) {
           return new Edit(_memoList[_currentIndex], _onChanged);
-        }
-        )
-        );
+        }));
       },
       child: Text('一言メモを書く'),
       // style: ElevatedButton.styleFrom(
@@ -185,22 +197,40 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   //一言メモ記入時に表示させるウィジェット
-  Widget _showContent(String content,int index){
-    return ListTile(
-      title: Text('一言メモ'),
-      subtitle: Text(content),
-      isThreeLine: true,
-        onTap: () {
-          _currentIndex = index;
-          Navigator.of(context)
-              .push(MaterialPageRoute<void>(builder: (BuildContext context) {
-            return new Edit(_memoList[_currentIndex], _onChanged);
-          }
-          )
-          );
-        }
+  Widget _showContent(String content, int index) {
+    return Card(
+      margin: EdgeInsets.all(10),
+      elevation: 10,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      shadowColor: Colors.black,
+      child: ListTile(
+          title: Text(
+              '一言メモ',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              decoration: TextDecoration.underline,
+              decorationColor: Colors.blue,
+              decorationThickness: 5,
+              //decorationStyle: TextDecorationStyle.double,
+            ),
+          ),
+          subtitle: Text(
+              content,
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 13,
+            ),
+          ),
+          isThreeLine: true,
+          onTap: () {
+            _currentIndex = index;
+            Navigator.of(context)
+                .push(MaterialPageRoute<void>(builder: (BuildContext context) {
+              return new Edit(_memoList[_currentIndex], _onChanged);
+            }));
+          }),
     );
   }
 }
-
-
