@@ -100,6 +100,7 @@ class _MyHomePageState extends State<MyHomePage> {
         });
   }
 
+
   Widget _buildArticleListView(List<Article> articles) {
     bool _customTileExpanded = false;
     for (int i = 0; i < articles.length; i++) {
@@ -132,14 +133,15 @@ class _MyHomePageState extends State<MyHomePage> {
         ListTile(
           title: Text(
             article.title!,
-            maxLines: 2,
+            maxLines: 3,
             style: TextStyle(
               color: Colors.white,
               fontSize: 15,
             ),
           ),
           subtitle: Text(
-            article.description ?? "",
+            //article.description ?? "",
+            article.source.name!,
             maxLines: 2,
             style: TextStyle(
               color: Colors.white,
