@@ -8,6 +8,7 @@ final String imageUrl;
 final String title;
 final String source;
 final String comment;
+final String date;
 
   newsComment({
     required this.id,
@@ -15,6 +16,7 @@ final String comment;
     required this.title,
     required this.source,
     required this.comment,
+    required this.date,
   });
   Map<String, dynamic> toMap() {
     return {
@@ -23,6 +25,7 @@ final String comment;
       'title': title,
       'source': source,
       'comment': comment,
+      'date': date,
     };
   }
 
@@ -34,7 +37,7 @@ final String comment;
       onCreate: (db, version) {
         return db.execute(
           // テーブルの作成
-          "CREATE TABLE memo(id INTEGER PRIMARY KEY AUTOINCREMENT, imageUrl TEXT, title TEXT, source TEXT,comment TEXT,)",
+          "CREATE TABLE memo(id INTEGER PRIMARY KEY AUTOINCREMENT, imageUrl TEXT, title TEXT, source TEXT,comment TEXT,date TEXT)",
         );
       },
       version: 1,
@@ -61,6 +64,7 @@ final String comment;
         title: maps[i]['title'],
         source: maps[i]['source'],
         comment: maps[i]['comment'],
+        date: maps[i]['date']
       );
     });
   }
