@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:diary_basic/edit.dart';
@@ -32,47 +34,48 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final NewsAPI _newsAPI = NewsAPI(API_KEY);
+  String today_date = '20211114';
   // ignore: deprecated_member_use
-  var _memoList = <String>[];
-  var _currentIndex = -1;
+  // var _memoList = <String>[];
+  // var _currentIndex = -1;
   //bool _loading = true;
 
-  @override
-  void initState() {
-    super.initState();
-    this.loadMemoList();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   this.loadMemoList();
+  // }
 
-  void loadMemoList() {
-    SharedPreferences.getInstance().then((prefs) {
-      const key = "memo-list";
-      if (prefs.containsKey(key)) {
-        _memoList = prefs.getStringList(key)!;
-      }
+  // void loadMemoList() {
+  //   SharedPreferences.getInstance().then((prefs) {
+  //     const key = "memo-list";
+  //     if (prefs.containsKey(key)) {
+  //       _memoList = prefs.getStringList(key)!;
+  //     }
+  //
+  //     setState(() {
+  //       //_loading = false;
+  //     });
+  //   });
+  // }
 
-      setState(() {
-        //_loading = false;
-      });
-    });
-  }
+  // void _onChanged(String text) {
+  //   setState(() {
+  //     _memoList[_currentIndex] = text;
+  //     storeMemoList();
+  //   });
+  // }
 
-  void _onChanged(String text) {
-    setState(() {
-      _memoList[_currentIndex] = text;
-      storeMemoList();
-    });
-  }
-
-  void storeMemoList() async {
-    final prefs = await SharedPreferences.getInstance();
-    const key = "memo-list";
-    final success = await prefs.setStringList(key, _memoList);
-    if (!success) {
-      debugPrint("Failed to store value");
-    }else{
-      debugPrint("store success");
-    }
-  }
+  // void storeMemoList() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   const key = "memo-list";
+  //   final success = await prefs.setStringList(key, _memoList);
+  //   if (!success) {
+  //     debugPrint("Failed to store value");
+  //   }else{
+  //     debugPrint("store success");
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -81,11 +84,11 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(
           widget.title,
-          style: TextStyle(
+          style: const TextStyle(
             color: Color(0xFF555647),
           ),
         ),
-        backgroundColor: Color(0xFFefefef),
+        backgroundColor: const Color(0xFFefefef),
       ),
       body: _newsTile(),
     );
@@ -105,15 +108,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
   Widget _buildArticleListView(List<Article> articles) {
-    for (int i = 0; i < articles.length; i++) {
-      _memoList.add("");
-    }
     return ListView.builder(
       itemCount: articles.length,
       itemBuilder: (context, index) {
         Article article = articles[index];
-        final memo = _memoList[index];
-            return _newstopic(memo, index, article);
+            return _newstopic(index, article);
       },
     );
   }
@@ -129,14 +128,25 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Widget _newstopic(String content, int index, Article article) {
+  Widget _newstopic(int index, Article article) {
+    newsComment comment = newsComment(
+        imageUrl: article.urlToImage!,
+        title: article.title!,
+        source: article.source.name!,
+        comment: "",
+        date: today_date,
+        url: article.url!
+    );
+    newsComment.insertComment(comment);
+
     return Column(
       children: [
         ListTile(
           title: Text(
             article.title!,
+            // newsComment.getComment(),
             maxLines: 3,
-            style: TextStyle(
+            style: const TextStyle(
               color: Color(0xFF1f2326),
               fontSize: 15,
             ),
@@ -145,7 +155,7 @@ class _MyHomePageState extends State<MyHomePage> {
             //article.description ?? "",
             article.source.name!,
             maxLines: 2,
-            style: TextStyle(
+            style: const TextStyle(
               color: Color(0xFF1f2326),
               fontSize: 10,
             ),
@@ -159,15 +169,18 @@ class _MyHomePageState extends State<MyHomePage> {
           tileColor: Color(0xFFe6bfb2),
             onTap: () => onLaunchUrl(article.url!),
         ),
-        content == "" ? _nullContent(index) : _showContent(content, index),
+        //content == "" ? _nullContent(index) : _showContent(content, index),
       ],
     );
   }
 
+
+  //news読み込み中に呼び出される関数
   Widget _buildProgress() {
     return Center(child: CircularProgressIndicator());
   }
 
+  //apiが読み込めなかった時に呼び出される関数
   Widget _buildError(ApiError error) {
     return Center(
       child: Padding(
@@ -189,6 +202,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
 
+  //webブラウザを立ち上げる時に呼び出される関数
   Future onLaunchUrl (String url) async {
     if (await canLaunch(url)) {
       await launch(url);
