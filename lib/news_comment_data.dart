@@ -3,7 +3,7 @@ import 'package:path/path.dart';
 
 class newsComment{
 
-final int id;
+final int? id;
 final String imageUrl;
 final String title;
 final String source;
@@ -12,7 +12,7 @@ final String date;
 final String url;
 
   newsComment({
-    required this.id,
+    this.id,
     required this.imageUrl,
     required this.title,
     required this.source,
