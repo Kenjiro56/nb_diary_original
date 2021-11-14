@@ -212,8 +212,8 @@ class _MyHomePageState extends State<MyHomePage> {
               fontWeight: FontWeight.bold,
               decoration: TextDecoration.underline,
               decorationColor: Colors.blue,
-              decorationThickness: 3,
-              decorationStyle: TextDecorationStyle.double,
+              decorationThickness: 5,
+              //decorationStyle: TextDecorationStyle.double,
             ),
           ),
           subtitle: Text(
