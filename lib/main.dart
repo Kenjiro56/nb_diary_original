@@ -3,12 +3,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:diary_basic/edit.dart';
 import 'package:news_api_flutter_package/model/article.dart';
 import 'package:news_api_flutter_package/model/error.dart';
-//import 'package:news_api_flutter_package/model/source.dart';
 import 'package:news_api_flutter_package/news_api_flutter_package.dart';
 import '../config.dart';
-//import 'package:url_launcher/link.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'package:diary_basic/news_comment_data.dart';
 
 void main() => runApp(MyApp());
 
@@ -101,7 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ? snapshot.hasData
                   ? _buildArticleListView(snapshot.data!)
                   : _buildError(snapshot.error as ApiError)
-              : _buildProgress();
+                  : _buildProgress();
         });
   }
 
@@ -227,7 +225,7 @@ class _MyHomePageState extends State<MyHomePage> {
       child: Column(
         children: [
           ListTile(
-              title: Text(
+              title: const Text(
                   '一言メモ',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
@@ -239,7 +237,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               subtitle: Text(
                   content,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.black,
                     fontSize: 13,
                 ),
@@ -256,7 +254,7 @@ class _MyHomePageState extends State<MyHomePage> {
           alignment: MainAxisAlignment.center,
           children: [
               OutlinedButton(
-              child: Text(
+              child: const Text(
                   'Delete',
                   style: TextStyle(
                     color: Color(0xFFffa07a),
@@ -265,7 +263,7 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {},
               ),
               OutlinedButton(
-              child: Text(
+              child: const Text(
                   'Edit',
                   style: TextStyle(
                     color: Color(0xFFffa07a),
