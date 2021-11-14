@@ -1,4 +1,4 @@
-config.dart
+lib/config.dart
 
 .DS_Store
 .dart_tool/
