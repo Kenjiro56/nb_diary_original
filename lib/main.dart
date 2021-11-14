@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: "YYYY/MM/DD(Fri)"),
+      home: MyHomePage(title: "2021/11/14(Sun)"),
     );
   }
 }
@@ -223,7 +223,7 @@ class _MyHomePageState extends State<MyHomePage> {
       child: Column(
         children: [
           ListTile(
-              title: Text(
+              title: const Text(
                   '一言メモ',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
@@ -235,7 +235,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               subtitle: Text(
                   content,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.black,
                     fontSize: 13,
                 ),
@@ -252,7 +252,7 @@ class _MyHomePageState extends State<MyHomePage> {
           alignment: MainAxisAlignment.center,
           children: [
               OutlinedButton(
-              child: Text(
+              child: const Text(
                   'Delete',
                   // style: TextStyle(
                   //   color: Colors.red,
@@ -261,7 +261,7 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {},
               ),
               OutlinedButton(
-              child: Text(
+              child: const Text(
                   'Edit',
                   // style: TextStyle(
                   //   color: Colors.green,
