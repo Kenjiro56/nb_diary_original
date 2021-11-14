@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: "YYYY/MM/DD(Fri)"),
+      home: MyHomePage(title: "2021年 11月 14日"),
     );
   }
 }
@@ -81,9 +81,13 @@ class _MyHomePageState extends State<MyHomePage> {
     //final items = _news;
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: Text(
+          widget.title,
+          style: TextStyle(
+            color: Color(0xFF555647),
+          ),
+        ),
+        backgroundColor: Color(0xFFefefef),
       ),
       body: _newsTile(),
     );
@@ -135,7 +139,7 @@ class _MyHomePageState extends State<MyHomePage> {
             article.title!,
             maxLines: 3,
             style: TextStyle(
-              color: Colors.white,
+              color: Color(0xFF1f2326),
               fontSize: 15,
             ),
           ),
@@ -144,7 +148,7 @@ class _MyHomePageState extends State<MyHomePage> {
             article.source.name!,
             maxLines: 2,
             style: TextStyle(
-              color: Colors.white,
+              color: Color(0xFF1f2326),
               fontSize: 10,
             ),
           ),
@@ -154,7 +158,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   article.urlToImage!,
                   // width: 150
           ),
-          tileColor: Colors.blueGrey,
+          tileColor: Color(0xFFe6bfb2),
             onTap: () => onLaunchUrl(article.url!),
         ),
         content == "" ? _nullContent(index) : _showContent(content, index),
@@ -205,9 +209,9 @@ class _MyHomePageState extends State<MyHomePage> {
         }));
       },
       child: Text('一言メモを書く'),
-      // style: ElevatedButton.styleFrom(
-      //
-      // ),
+      style: ElevatedButton.styleFrom(
+        primary: Color(0xFFffa07a),
+      ),
     );
   }
 
@@ -228,8 +232,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   decoration: TextDecoration.underline,
-                  decorationColor: Colors.blue,
-                  decorationThickness: 5,
+                  decorationColor: Color(0xFFffa07a),
+                  decorationThickness: 3,
                   //decorationStyle: TextDecorationStyle.double,
                 ),
               ),
@@ -254,18 +258,18 @@ class _MyHomePageState extends State<MyHomePage> {
               OutlinedButton(
               child: Text(
                   'Delete',
-                  // style: TextStyle(
-                  //   color: Colors.red,
-                  // ),
+                  style: TextStyle(
+                    color: Color(0xFFffa07a),
+                  ),
               ),
               onPressed: () {},
               ),
               OutlinedButton(
               child: Text(
                   'Edit',
-                  // style: TextStyle(
-                  //   color: Colors.green,
-                  // ),
+                  style: TextStyle(
+                    color: Color(0xFFffa07a),
+                  ),
               ),
               onPressed: () {},
               )
