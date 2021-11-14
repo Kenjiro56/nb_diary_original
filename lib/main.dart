@@ -70,6 +70,8 @@ class _MyHomePageState extends State<MyHomePage> {
     final success = await prefs.setStringList(key, _memoList);
     if (!success) {
       debugPrint("Failed to store value");
+    }else{
+      debugPrint("store success");
     }
   }
 
@@ -151,6 +153,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   // width: 150
           ),
           tileColor: Colors.blueGrey,
+            onTap: () => onLaunchUrl(article.url!),
         ),
         content == "" ? _nullContent(index) : _showContent(content, index),
       ],
@@ -182,6 +185,11 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
 
+  Future onLaunchUrl (String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    }
+  }
 
 
   //一言メモ未記入時に表示させるウィジェット
